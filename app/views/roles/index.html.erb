@@ -7,7 +7,7 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:key) %></th>
+      <th><%= model_class.human_attribute_name(:role_key) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -16,7 +16,7 @@
       <tr>
         <td><%= link_to role.id, role_path(role) %></td>
         <td><a href="/roles/<%=role.id%>/mlist"><%= role.name %></a></td>
-        <td><%= role.key %></td>
+        <td><%= role.role_code %></td>
         <td>
           <%= link_to "新增人员",
                       add_member_role_path(role), :class => 'btn btn-mini' %>

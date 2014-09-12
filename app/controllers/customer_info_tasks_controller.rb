@@ -1,6 +1,5 @@
 #encoding: utf-8
 class CustomerInfoTasksController < ApplicationController
-
   # GET /roles
   # GET /roles.json
   def index
@@ -29,19 +28,35 @@ class CustomerInfoTasksController < ApplicationController
   def apply
     task = CustomerInfoTask.find(params[:task_id])
     task.apply
+    @role = check_role_exist("customer_managers_key")
+    task.assign
+    task.role_id = @role.id
+    task.username = @role.roles_users.first.username
     result = task.save
     render :json => {"result"=>result}
   end
 
   def create_instance
+    check_role_exist("sales_man_key")
+    @rolesuser= RolesUser.where(:role_id=>@role.id,:username=>params[:username])
+    if @rolesuser.blank?
+        render :json => {:result=>false,:desc=>"该用户还未安排角色."}
+        return
+    end
     task = CustomerInfoTask.new
     task.username = params[:username]
-    @role_user = RolesUser.find_by_username params[:username]
-    if !@role_user.blank?
-      task.role_id = @role_user.role_id
-    end
+    task.role_id = @role.id
     task.save
     render :json => {"task_id"=>task.id}
+  end
+
+  def check_role_exist(key)
+    @role = Role.find_by_role_code(key)
+    if @role.blank?
+      render :json => {:result=>false,:desc=>"流程角色还没有创建."}
+      return
+    end
+    return @role
   end
 
   # GET /roles/new
@@ -92,4 +107,5 @@ class CustomerInfoTasksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 end

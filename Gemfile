@@ -10,6 +10,7 @@ gem 'mysql2'
 gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
 gem 'less-rails'
+gem 'unicorn'
 
 
 # Gems used only for assets and not required
