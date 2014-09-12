@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>任务ID</th>
+      <th>顺序</th>
       <th>角色</th>
       <th>用户名</th>
       <th>操作</th>
@@ -17,6 +18,7 @@
     <% @events.each do |event| %>
       <tr>
         <td><%= event.task_id %></td>
+        <td><%= event.index %></td>
         <td><%= Role.find(event.role_id).name %></td>
         <td><%= event.username%></td>
         <td><%= event.operation%></td>

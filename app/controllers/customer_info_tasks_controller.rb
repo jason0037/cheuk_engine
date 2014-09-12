@@ -25,6 +25,10 @@ class CustomerInfoTasksController < ApplicationController
   def fail
     task = CustomerInfoTask.find(params[:task_id])
     task.back
+    last_index = task.index - 1
+    event = EventLog.where(:task_id=>task.id,:index=>last_index)
+    task.role_id = event.first.role_id
+    task.username = event.first.username
     result = task.save
     render :json => {"result"=>result}
   end

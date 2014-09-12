@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>id</th>
+      <th>index</th>
       <th>status</th>
       <th>当前角色</th>
       <th>用户名</th>
@@ -15,6 +16,7 @@
     <% @tasks.each do |task| %>
       <tr>
       <td><a href="/customer_info_tasks/eventlogs?task_id=<%=task.id%>"><%= task.id %></a></td>
+        <td><%= task.index %></td>
         <td><%= task.state %></td>
         <td><%= Role.find(task.role_id).name %></td>
         <td><%= task.username %></td>
