@@ -1,0 +1,35 @@
+<%- model_class = Role -%>
+<div class="page-header">
+  <h1>流程日志</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>任务ID</th>
+      <th>角色</th>
+      <th>用户名</th>
+      <th>操作</th>
+      <th>从</th>
+      <th>到</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= event.task_id %></td>
+        <td><%= Role.find(event.role_id).name %></td>
+        <td><%= event.username%></td>
+        <td><%= event.operation%></td>
+        <td>
+          <%=event.from%>
+        </td>
+        <td>
+          <%=event.to%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="pagination alternate">
+  <%= will_paginate @events, :container => false %>
+</div>

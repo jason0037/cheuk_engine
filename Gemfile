@@ -11,6 +11,7 @@ gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'unicorn'
+gem 'will_paginate'
 
 
 # Gems used only for assets and not required

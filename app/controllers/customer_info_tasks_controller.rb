@@ -3,12 +3,16 @@ class CustomerInfoTasksController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
-    @roles = Role.all
+    @tasks = CustomerInfoTask.paginate(:page => params[:page], :per_page => 20).order("created_at DESC")
   end
 
   # GET /roles/1
   # GET /roles/1.json
   def show
+  end
+
+  def eventlogs
+    @events = EventLog.where(:task_id=>params[:task_id]).paginate(:page => params[:page], :per_page => 20).order("created_at DESC")
   end
 
   def pass

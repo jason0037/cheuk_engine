@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :customer_info_tasks do
     get :create_instance,:on=>:collection
     get :pass,:on=>:collection
+    get :eventlogs,:on=>:collection
     get :apply,:on=>:collection
     get :fail,:on=>:collection
   end
