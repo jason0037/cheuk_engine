@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get :eventlogs,:on=>:collection
     get :apply,:on=>:collection
     get :fail,:on=>:collection
+    get :get_tasks,:on=>:collection
   end
   resources :roles_users
   # The priority is based upon order of creation: first created -> highest priority.

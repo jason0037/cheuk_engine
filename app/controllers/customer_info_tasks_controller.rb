@@ -11,6 +11,12 @@ class CustomerInfoTasksController < ApplicationController
   def show
   end
 
+  def get_tasks
+    @role_id = Role.find_by_role_code(params[:role_code]).id
+    @tasks = CustomerInfoTask.where(:role_id=>@role_id,:username=>params[:username])
+    render :json => {"task_list"=>@tasks}
+  end
+
   def eventlogs
     @events = EventLog.where(:task_id=>params[:task_id]).paginate(:page => params[:page], :per_page => 20).order("created_at DESC")
   end
