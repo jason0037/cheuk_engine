@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
   resources :roles do
     get :add_member,:on=>:member
+    get :del_member,:on=>:member
     get :mlist,:on=>:member
+    get :user_list,:on=>:collection
+    post :process_set,:on=>:collection
+    get :assign,:on=>:collection
   end
 
   resources :customer_info_tasks do
     get :create_instance,:on=>:collection
     get :pass,:on=>:collection
     get :eventlogs,:on=>:collection
+    get :process_list,:on=>:collection
     get :apply,:on=>:collection
     get :fail,:on=>:collection
     get :get_tasks,:on=>:collection

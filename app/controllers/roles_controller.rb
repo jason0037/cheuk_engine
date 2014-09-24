@@ -6,6 +6,21 @@ class RolesController < ApplicationController
     @roles = Role.all
   end
 
+
+  def assign
+    @role_list = Role.all.collect { |type| [type.name, type.id] } 
+  end
+
+  def process_set
+    if params[:role][:process_type] == "1"
+      task = CustomerInfoTask.find(params[:role][:process_id])
+      task.role_id = params[:role][:roles_id]
+      task.username = params[:role][:username]
+      task.save
+    end
+    redirect_to assign_roles_path
+  end
+
   # GET /roles/1
   # GET /roles/1.json
   def show
@@ -17,8 +32,20 @@ class RolesController < ApplicationController
     @role_user = RolesUser.new
   end
 
+  def del_member
+    @role = Role.find(params[:id])
+    @role_user = RolesUser.find(params[:user_id])
+    @role_user.delete
+    redirect_to "/roles/#{@role.id}/mlist"
+  end
+
   def mlist
     @rusers = RolesUser.where(:role_id=>params[:id])
+  end
+
+  def user_list
+    @role_users = RolesUser.where(:role_id=>params[:role_id]).pluck(:username) 
+    render :json => {"usernames"=>@role_users}
   end
 
   # GET /roles/new

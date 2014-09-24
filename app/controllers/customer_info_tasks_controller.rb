@@ -11,10 +11,19 @@ class CustomerInfoTasksController < ApplicationController
   def show
   end
 
+  def process_set
+    
+  end
+
   def get_tasks
     @role_id = Role.find_by_role_code(params[:role_code]).id
     @tasks = CustomerInfoTask.where(:role_id=>@role_id,:username=>params[:username])
     render :json => {"task_list"=>@tasks}
+  end
+
+  def process_list
+    @ids = CustomerInfoTask.pluck(:id)
+    render :json => {"ids"=>@ids}
   end
 
   def eventlogs
