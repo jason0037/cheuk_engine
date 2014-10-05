@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  
+  root :to=>"users#new"
+
   resources :roles do
     get :add_member,:on=>:member
     get :del_member,:on=>:member
@@ -6,6 +9,11 @@ Rails.application.routes.draw do
     get :user_list,:on=>:collection
     post :process_set,:on=>:collection
     get :assign,:on=>:collection
+  end
+
+  resources :users do
+    post :login,:on=>:collection
+    get :logout,:on=>:collection
   end
 
   resources :customer_info_tasks do
