@@ -6,6 +6,9 @@ class RolesController < ApplicationController
     @roles = Role.all
   end
 
+  def company
+    @roles = Role.where(:role_type=>0)
+  end
 
   def assign
     @role_list = Role.all.collect { |type| [type.name, type.id] } 
@@ -55,7 +58,7 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
-    @role = Role.find(params[:id])
+    @role = Role.find(params[:id]) 
   end
 
   # POST /roles

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get :user_list,:on=>:collection
     post :process_set,:on=>:collection
     get :assign,:on=>:collection
+    get :company,:on=>:collection
   end
 
   resources :users do

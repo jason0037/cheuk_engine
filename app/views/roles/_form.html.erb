@@ -12,6 +12,13 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= f.label :role_type, "组织类型", :class => "control-label" %>
+    <div class="controls">
+    <%=f.select :role_type,{"标准"=>0,"流程"=>1},{:include_blank=>"请选择"},{:id=>"role_type_list" }%>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

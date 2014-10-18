@@ -11,6 +11,7 @@ gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'unicorn'
+gem 'jbuilder'
 gem 'will_paginate'
 
 
