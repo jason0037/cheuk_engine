@@ -48,7 +48,8 @@ class RolesController < ApplicationController
   end
 
   def user_list
-    @role_users = RolesUser.where(:role_id=>params[:role_id]).pluck(:username) 
+    role = Role.where(:role_code=>params[:role_code]).first
+    @role_users = RolesUser.where(:role_id=>role.id).pluck(:username) 
     render :json => {"usernames"=>@role_users}
   end
 

@@ -1,5 +1,5 @@
 #encoding: utf-8
-class CustomerInfoTasksController < ApplicationController
+class TasksController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
@@ -60,17 +60,27 @@ class CustomerInfoTasksController < ApplicationController
   end
 
   def create_instance
-    check_role_exist("sales_man_key")
-    @rolesuser= RolesUser.where(:role_id=>@role.id,:username=>params[:username])
-    if @rolesuser.blank?
-        render :json => {:result=>false,:desc=>"该用户还未安排角色."}
-        return
-    end
-    task = CustomerInfoTask.new
+    task = Task.new
     task.username = params[:username]
+    @role = check_role_exist(params[:role_key])
     task.role_id = @role.id
     task.save
+    attachment = BpmAttachment.new
+    attachment.process_id = task.id
+    attachment.index = task.index
+    attachment.attachment_type = "text"
+    attachment.content = params[:content]
+    attachment.save
     render :json => {"task_id"=>task.id}
+  end
+
+  def check_role_exist(key)
+    @role = Role.find_by_role_code(key)
+    if @role.blank?
+      render :json => {:result=>false,:desc=>"流程角色还没有创建."}
+      return
+    end
+    return @role
   end
 
   # GET /roles/new

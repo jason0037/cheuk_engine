@@ -7,4 +7,13 @@ class ApplicationController < ActionController::Base
 		redirect_to new_user_path
 	end
  end
+
+  def check_role_exist(key)
+    @role = Role.find_by_role_code(key)
+    if @role.blank?
+      render :json => {:result=>false,:desc=>"流程角色还没有创建."}
+      return
+    end
+    return @role
+  end
 end

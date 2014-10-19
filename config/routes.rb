@@ -12,6 +12,12 @@ Rails.application.routes.draw do
     get :company,:on=>:collection
   end
 
+  resources :tasks do
+    get :create_instance,:on=>:collection
+    get :get_task,:on=>:collection
+    get :get_task_count,:on=>:collection
+  end
+
   resources :users do
     post :login,:on=>:collection
     get :logout,:on=>:collection
