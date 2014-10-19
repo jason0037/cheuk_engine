@@ -1,6 +1,6 @@
 #encoding: utf-8
 class RolesController < ApplicationController
-  before_filter :authorize_user!,:except => [:company]
+  before_filter :authorize_user!,:except => [:company,:user_list]
   # GET /roles
   # GET /roles.json
   def index
