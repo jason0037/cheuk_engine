@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     get :add_member,:on=>:member
     get :del_member,:on=>:member
     get :mlist,:on=>:member
+    get :get_role,:on=>:member
     get :user_list,:on=>:collection
     post :process_set,:on=>:collection
     get :assign,:on=>:collection
