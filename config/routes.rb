@@ -14,9 +14,11 @@ Rails.application.routes.draw do
   end
 
   resources :tasks do
-    get :create_instance,:on=>:collection
+    get :create_question,:on=>:collection
     get :get_task,:on=>:collection
     get :get_task_count,:on=>:collection
+    get :question,:on=>:collection
+    get :answer,:on=>:collection
   end
 
   resources :users do

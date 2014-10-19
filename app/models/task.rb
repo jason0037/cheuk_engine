@@ -1,22 +1,21 @@
+require "pp"
+
 class Task < ActiveRecord::Base
-  state_machine :initial => :start do
+  state_machine :initial => :init do
     after_transition :event_log
     before_transition :update_index
-    event :apply do  
-      transition :start => :apply
+    event :created do  
+      transition :init => :created
     end
 
-    event :assign do
-      transition :apply => :assigned
+    event :question do  
+      transition :created => :question
     end
 
-    event :pass do  
-      transition :assigned => :pass
+    event :answer do
+      transition :question => :answered
     end
 
-    event :back do  
-      transition :assigned => :start
-    end  
   end
 
   def update_index
@@ -25,6 +24,7 @@ class Task < ActiveRecord::Base
   end
 
   def event_log(transition)
+    pp "tetsss------"
   	event = EventLog.new
   	event.task_id = self.id
   	event.role_id = self.role_id

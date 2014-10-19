@@ -1,12 +1,12 @@
 class CreateTasks < ActiveRecord::Migration
   def change
     create_table :tasks do |t|
-      t.string :type
+      t.string :task_type
       t.string :state
       t.integer :role_id
       t.string :username
       t.integer :attachment_id
-      t.integer :index
+      t.integer :index,:default=>0
       
       t.timestamps
     end

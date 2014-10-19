@@ -1,5 +1,6 @@
 #encoding: utf-8
 class TasksController < ApplicationController
+  before_filter :authorize_user!,:except => [:create_question,:question,:answer]
   # GET /roles
   # GET /roles.json
   def index
@@ -30,48 +31,71 @@ class TasksController < ApplicationController
     @events = EventLog.where(:task_id=>params[:task_id]).paginate(:page => params[:page], :per_page => 20).order("created_at DESC")
   end
 
-  def pass
-    task = CustomerInfoTask.find(params[:task_id])
-    task.pass
-    result = task.save
-    render :json => {"result"=>result}
-  end
-
-  def fail
-    task = CustomerInfoTask.find(params[:task_id])
-    task.back
-    last_index = task.index - 1
-    event = EventLog.where(:task_id=>task.id,:index=>last_index)
-    task.role_id = event.first.role_id
-    task.username = event.first.username
-    result = task.save
-    render :json => {"result"=>result}
-  end
-
-  def apply
-    task = CustomerInfoTask.find(params[:task_id])
-    task.apply
-    @role = check_role_exist("customer_managers_key")
-    task.assign
-    task.role_id = @role.id
-    task.username = @role.roles_users.first.username
-    result = task.save
-    render :json => {"result"=>result}
-  end
-
-  def create_instance
+  def create_question
     task = Task.new
     task.username = params[:username]
-    @role = check_role_exist(params[:role_key])
+    @role = check_role_exist(params[:role_code])
     task.role_id = @role.id
+    task.task_type = params[:type]
     task.save
-    attachment = BpmAttachment.new
-    attachment.process_id = task.id
-    attachment.index = task.index
-    attachment.attachment_type = "text"
-    attachment.content = params[:content]
-    attachment.save
+    task.created
+    if !params[:content].blank?
+      @attach =  BpmAttachment.where(:process_id=>params[:task_id],:index=>task.index)
+      if @attach.blank?
+        attachment = BpmAttachment.new
+        attachment.process_id = task.id
+        attachment.process_type = task.task_type
+        attachment.index = task.index
+        attachment.attachment_type = "text"
+        attachment.content = params[:content]
+        attachment.save
+      end
+    end
     render :json => {"task_id"=>task.id}
+  end
+
+  def question
+    @task = Task.find(params[:task_id])
+    @role = check_role_exist(params[:role_code])
+    @task.role_id = @role.id
+    @task.username = params[:username]
+    @task.question
+    if !params[:content].blank?
+      @attach =  BpmAttachment.where(:process_id=>params[:task_id],:index=>@task.index)
+      if @attach.blank?
+        attachment = BpmAttachment.new
+        attachment.process_id = @task.id
+        attachment.process_type = @task.task_type
+        attachment.index = @task.index
+        attachment.attachment_type = "text"
+        attachment.content = params[:content]
+        attachment.save
+      end
+    end
+    render :json => {"result"=>"t"}
+  end
+
+
+  def answer
+    @task = Task.find(params[:task_id])
+    @role = check_role_exist(params[:role_code])
+    @task.role_id = @role.id
+    @task.username = params[:username]
+    @task.answer
+
+    if !params[:content].blank?
+      @attach =  BpmAttachment.where(:process_id=>params[:task_id],:index=>@task.index)
+      if @attach.blank?
+        attachment = BpmAttachment.new
+        attachment.process_id = @task.id
+        attachment.index = @task.index
+        attachment.process_type = @task.task_type
+        attachment.attachment_type = "text"
+        attachment.content = params[:content]
+        attachment.save
+      end
+    end
+    render :json => {"result"=>"t"}
   end
 
   def check_role_exist(key)
