@@ -18,8 +18,7 @@ class TasksController < ApplicationController
 
   def get_tasks
     @role_id = Role.find_by_role_code(params[:role_code]).id
-    @tasks = CustomerInfoTask.where(:role_id=>@role_id,:username=>params[:username])
-    render :json => {"task_list"=>@tasks}
+    @tasks = Task.where(:role_id=>@role_id,:username=>params[:username])
   end
 
   def process_list

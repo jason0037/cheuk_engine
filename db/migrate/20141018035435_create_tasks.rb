@@ -5,7 +5,6 @@ class CreateTasks < ActiveRecord::Migration
       t.string :state
       t.integer :role_id
       t.string :username
-      t.integer :attachment_id
       t.integer :index,:default=>0
       
       t.timestamps

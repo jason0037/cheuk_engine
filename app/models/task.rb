@@ -1,5 +1,3 @@
-require "pp"
-
 class Task < ActiveRecord::Base
   state_machine :initial => :init do
     after_transition :event_log
@@ -18,13 +16,16 @@ class Task < ActiveRecord::Base
 
   end
 
+  def attachments
+    BpmAttachment.where(:process_id=>self.id)
+  end
+
   def update_index
     self.index = self.index + 1
     self.save
   end
 
   def event_log(transition)
-    pp "tetsss------"
   	event = EventLog.new
   	event.task_id = self.id
   	event.role_id = self.role_id

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :tasks do
     get :create_question,:on=>:collection
-    get :get_task,:on=>:collection
+    get :get_tasks,:on=>:collection
     get :get_task_count,:on=>:collection
     get :question,:on=>:collection
     get :answer,:on=>:collection

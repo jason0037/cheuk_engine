@@ -1,0 +1,76 @@
+<%= form_for :role,:url=>process_set_roles_path,:method=>:post,:html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :content, "流程列表", :class => "control-label" %>
+    <div class="controls">
+      <%=f.select :process_type,{"客户修改流程"=>"1"},{:include_blank=>"请选择"},{:id=>"bpm"}%>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :content, "流程id", :class => "control-label" %>
+    <div class="controls">
+    <%=f.select :process_id,{},{:include_blank=>"请选择"},{:id=>"instance_list" }%>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :content, "组织列表", :class => "control-label" %>
+    <div class="controls">
+    <%=f.select :roles_id,@role_list,{:include_blank=>"请选择"},{:id=>"role_list" }%>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :content, "用户列表", :class => "control-label" %>
+    <div class="controls">
+    <%=f.select :username,{},{:include_blank=>"请选择"},{:id=>"user_list" }%>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                roles_path, :class => 'btn' %>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $("#bpm").change(function(){
+    var bpm_type = $(this).val();
+    var url = "";
+    var params = {};
+    if(bpm_type=="1")
+    {
+      url = "/customer_info_tasks/process_list";
+    }
+    $.ajax(url,{
+      type: "GET",
+      data: params,
+      success: function(res){
+        $("#instance_list").empty();
+        var id_array = res.ids;
+        for(var i=0;i<id_array.length;i++)
+        {
+          $("#instance_list").append("<option value='"+id_array[i]+"'>"+id_array[i]+"</option>");
+        }
+      }
+    });
+  });
+
+  $("#role_list").change(function(){
+    var role_id = $(this).val();
+    var params = {role_id:role_id};
+    var url = "/roles/user_list";
+    $.ajax(url,{
+      type: "GET",
+      data: params,
+      success: function(res){
+        $("#user_list").empty();
+        var id_array = res.usernames;
+        for(var i=0;i<id_array.length;i++)
+        {
+          $("#user_list").append("<option value='"+id_array[i]+"'>"+id_array[i]+"</option>");
+        }
+      }
+    });
+  });
+</script>

@@ -1,0 +1,21 @@
+<%- model_class = Role -%>
+<div class="page-header">
+  <h1>组织列表</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>用户名</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rusers.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+        <td><%= link_to "删除",
+                      del_member_role_path(:user_id=>user.id), :class => 'btn btn-mini' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
