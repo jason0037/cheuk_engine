@@ -13,6 +13,11 @@ Rails.application.routes.draw do
     get :company,:on=>:collection
   end
 
+  resources :guests do
+    get :reg_guest,:on=>:collection
+    get :get_guests,:on=>:collection
+  end
+
   resources :tasks do
     get :create_question,:on=>:collection
     get :get_tasks,:on=>:collection
