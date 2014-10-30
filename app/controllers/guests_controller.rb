@@ -34,6 +34,9 @@ class GuestsController < ApplicationController
     if !params[:last_visit].blank?
       @guest.last_visit = params[:last_visit]
     end
+    if !params[:username].blank?
+      @guest.username = params[:username]
+    end
     @guest.save
     render :json => {"result"=>"ok"}
   end
