@@ -74,6 +74,14 @@ class TasksController < ApplicationController
     render :json => {"result"=>"t"}
   end
 
+  def finish
+    @task = Task.find(params[:task_id])
+    @role = check_role_exist(params[:role_code])
+    @task.role_id = @role.id
+    @task.username = params[:username]
+    @task.finish
+    render :json => {"result"=>"t"}
+  end
 
   def answer
     @task = Task.find(params[:task_id])

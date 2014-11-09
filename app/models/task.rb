@@ -14,6 +14,10 @@ class Task < ActiveRecord::Base
       transition :question => :answered
     end
 
+    event :finish do
+      transition :answered => :finished
+    end
+
   end
 
   def attachments

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get :get_task_count,:on=>:collection
     get :question,:on=>:collection
     get :answer,:on=>:collection
+    get :finish,:on=>:collection
   end
 
   resources :users do
