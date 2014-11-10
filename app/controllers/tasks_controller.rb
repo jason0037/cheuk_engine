@@ -1,6 +1,6 @@
 #encoding: utf-8
 class TasksController < ApplicationController
-  before_filter :authorize_user!,:except => [:create_question,:question,:answer,:get_tasks]
+  before_filter :authorize_user!,:except => [:create_question,:question,:answer,:get_tasks,:finish]
   # GET /roles
   # GET /roles.json
   def index
