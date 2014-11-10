@@ -105,6 +105,29 @@ class TasksController < ApplicationController
     render :json => {"result"=>"t"}
   end
 
+
+  def append_answer
+    @task = Task.find(params[:task_id])
+    @role = check_role_exist(params[:role_code])
+    @task.role_id = @role.id
+    @task.username = params[:username]
+    @task.append_answer
+
+    if !params[:content].blank?
+      @attach =  BpmAttachment.where(:process_id=>params[:task_id],:index=>@task.index)
+      if @attach.blank?
+        attachment = BpmAttachment.new
+        attachment.process_id = @task.id
+        attachment.index = @task.index
+        attachment.process_type = @task.task_type
+        attachment.attachment_type = "text"
+        attachment.content = params[:content]
+        attachment.save
+      end
+    end
+    render :json => {"result"=>"t"}
+  end
+
   def check_role_exist(key)
     @role = Role.find_by_role_code(key)
     if @role.blank?
