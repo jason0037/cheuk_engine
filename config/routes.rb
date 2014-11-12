@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   resources :guests do
     get :reg_guest,:on=>:collection
     get :get_guests,:on=>:collection
+    get :set_trail,:on=>:collection
+    get :get_trail,:on=>:collection
+    get :get_all_guests,:on=>:collection
   end
 
   resources :tasks do

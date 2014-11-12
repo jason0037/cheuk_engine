@@ -8,6 +8,26 @@ class GuestsController < ApplicationController
     @roles = Role.all
   end
 
+  def set_trail
+    @trail = GuestTrail.new
+    @trail.username = params[:username]
+    @trail.ip = params[:ip]
+    @trail.page_path = params[:page_path]
+    @trail.time_at = params[:time_at]
+    result = @trail.save
+    render :json => {"result"=>result}
+  end
+
+  def get_trail
+    @trails = GuestTrail.where(:username=>params[:username])
+    render :json => {"guests"=>@guests}
+  end
+
+  def get_all_guests
+    @guests = OpenfireGuest.paginate(:page => params[:page], :per_page => 20).order("created_at DESC")
+    render :json => {"guests"=>@guests}
+  end
+
   def get_guests
     status = params[:status]
     @guests = OpenfireGuest.where(:status=>status)
@@ -15,8 +35,7 @@ class GuestsController < ApplicationController
   end
 
   def reg_guest
-    username = params[:username]
-    @guests = OpenfireGuest.where(:username=>username)
+    @guests = OpenfireGuest.where(:ip=>params[:ip])
     if @guests.blank?
       @guest = OpenfireGuest.new
     else
