@@ -1,7 +1,7 @@
 require "pp"
 #encoding: utf-8
 class GuestsController < ApplicationController
-  before_filter :authorize_user!,:except => [:get_all_guests,:set_trail,,:get_trail,:reg_guest,:get_guests,:login]
+  before_filter :authorize_user!,:except => [:get_all_guests,:set_trail,:get_trail,:reg_guest,:get_guests,:login]
   # GET /roles
   # GET /roles.json
   def index
