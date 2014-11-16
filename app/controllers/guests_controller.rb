@@ -20,7 +20,7 @@ class GuestsController < ApplicationController
 
   def get_trail
     @trails = GuestTrail.where(:username=>params[:username])
-    render :json => {"guests"=>@guests}
+    render :json => {"guests"=>@trails}
   end
 
   def get_all_guests
