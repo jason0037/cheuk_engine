@@ -49,6 +49,15 @@ class TasksController < ApplicationController
         attachment.content = params[:content]
         attachment.save
       end
+      if !params[:file].blank?
+        attachment = BpmAttachment.new
+        attachment.process_id = task.id
+        attachment.process_type = task.task_type
+        attachment.index = task.index
+        attachment.attachment_type = "file"
+        attachment.content = params[:file]
+        attachment.save
+      end
     end
     render :json => {"task_id"=>task.id}
   end
@@ -68,6 +77,15 @@ class TasksController < ApplicationController
         attachment.index = @task.index
         attachment.attachment_type = "text"
         attachment.content = params[:content]
+        attachment.save
+      end
+      if !params[:file].blank?
+        attachment = BpmAttachment.new
+        attachment.process_id = task.id
+        attachment.process_type = task.task_type
+        attachment.index = task.index
+        attachment.attachment_type = "file"
+        attachment.content = params[:file]
         attachment.save
       end
     end
@@ -99,6 +117,15 @@ class TasksController < ApplicationController
         attachment.process_type = @task.task_type
         attachment.attachment_type = "text"
         attachment.content = params[:content]
+        attachment.save
+      end
+      if !params[:file].blank?
+        attachment = BpmAttachment.new
+        attachment.process_id = task.id
+        attachment.process_type = task.task_type
+        attachment.index = task.index
+        attachment.attachment_type = "file"
+        attachment.content = params[:file]
         attachment.save
       end
     end
