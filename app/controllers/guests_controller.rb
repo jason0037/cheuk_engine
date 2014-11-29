@@ -47,6 +47,9 @@ class GuestsController < ApplicationController
     if !params[:ip].blank?
       @guest.ip = params[:ip]
     end
+    if !params[:on_service].blank?
+      @guest.on_service = params[:on_service]
+    end
     if !params[:customer_service].blank?
       @guest.customer_service = params[:customer_service]
     end
