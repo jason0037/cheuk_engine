@@ -1,6 +1,6 @@
 #encoding: utf-8
 class RolesController < ApplicationController
-  before_filter :authorize_user!,:except => [:company,:user_list,:get_role]
+  before_filter :authorize_user!,:except => [:get_customer_service,:set_session_log,:del_session_log,:set_max_service,:get_max_service,:company,:user_list,:get_role]
   # GET /roles
   # GET /roles.json
   def index
@@ -9,6 +9,69 @@ class RolesController < ApplicationController
 
   def company
     @roles = Role.where(:role_type=>0)
+  end
+
+  def get_max_service
+    @role = Role.find_by_role_code("customer_service")
+    @users = RolesUser.where(:role_id=>@role.id,:username=>params[:username])
+    if @users.blank?
+        render :json => {"errors"=>"username is not exist"}
+        return
+    else
+        @max_service = @users.first.max_service
+    end
+    render :json => {"max_service"=>@max_service}
+  end
+
+  def set_max_service
+    @role = Role.find_by_role_code("customer_service")
+    @users = RolesUser.where(:role_id=>@role.id,:username=>params[:username])
+    if @users.blank?
+        render :json => {"errors"=>"username is not exist"}
+        return
+    else
+        @users.first.max_service = params[:max_service]
+        @users.first.save
+    end
+    render :json => {"result"=>"t"}
+  end
+
+  def set_session_log
+    @role = Role.find_by_role_code("customer_service")
+    @users = RolesUser.where(:role_id=>@role.id,:username=>params[:username])
+    if @users.blank?
+        render :json => {"errors"=>"username is not exist"}
+        return
+    else
+        @users.first.service = @users.first.service + 1
+        @users.first.save
+        @session_log = SessionLog.new
+        @session_log.username = params[:username]
+        @session_log.save
+    end
+    render :json => {"session_id"=>@session_log.id}
+  end
+
+  def del_session_log
+    @role = Role.find_by_role_code("customer_service")
+    @users = RolesUser.where(:role_id=>@role.id,:username=>params[:username])
+    if @users.blank?
+        render :json => {"errors"=>"username is not exist"}
+        return
+    else
+        @users.first.service = @users.first.service - 1
+        @users.first.save
+        @session_log = SessionLog.find(params[:id])
+        @session_log.delete
+    end
+    render :json => {"result"=>"t"}
+  end
+
+
+  def get_customer_service
+    @role = Role.find_by_role_code("customer_service")
+    @users = RolesUser.where(:role_id=>@role.id).limit(1).order("service")
+    render :json => {"username"=>@users.first.username}
   end
 
   def assign

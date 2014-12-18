@@ -11,6 +11,11 @@ Rails.application.routes.draw do
     post :process_set,:on=>:collection
     get :assign,:on=>:collection
     get :company,:on=>:collection
+    get :get_max_service,:on=>:collection
+    get :set_max_service,:on=>:collection
+    get :set_session_log,:on=>:collection
+    get :del_session_log,:on=>:collection
+    get :get_customer_service,:on=>:collection
   end
 
   resources :guests do
