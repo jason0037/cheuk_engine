@@ -35,12 +35,7 @@ class GuestsController < ApplicationController
   end
 
   def reg_guest
-    @guests = OpenfireGuest.where(:ip=>params[:ip])
-    if @guests.blank?
-      @guest = OpenfireGuest.new
-    else
-      @guest = @guests.first
-    end
+    @guest = OpenfireGuest.new
     if !params[:status].blank?
       @guest.status = params[:status]
     end
